@@ -37,7 +37,7 @@ const NewTripModal = () => {
           </Form.Item>
 
           <Form.Item label='Description' name='description' rules={[{ required: true }]}>
-            <Input.TextArea />
+            <Input.TextArea autoSize={{ minRows: 3 }} />
           </Form.Item>
 
           <ImagesInput label='Images' rules={[{ required: true }]} onUpload={i => setImages([...images, i])} />

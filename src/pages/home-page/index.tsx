@@ -14,7 +14,7 @@ const HomePage = () => {
       <Map />
 
       <div className='home-page__button'>
-        {user ? <NewTripModal /> : <LoginButton />}
+        {user ? <NewTripModal user={user} /> : <LoginButton />}
       </div>
     </div>
 

@@ -2,22 +2,27 @@ import { Button, Modal, Form, Input } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import firebase from 'firebase'
+import { firestore } from '../../config/firebase'
 import ImagesInput from './images-input'
 import LocationInput from './location-input'
 
-const NewTripModal = () => {
+interface NewTripModalProps {
+  user: firebase.User
+}
+
+const NewTripModal = ({ user }: NewTripModalProps) => {
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [images, setImages] = useState<firebase.storage.Reference[]>([])
   const [form] = Form.useForm()
 
-  const submit = () => {
+  const submit = async () => {
     setLoading(true)
-    setTimeout(() => {
-      setVisible(false)
-      setLoading(false)
-      form.resetFields()
-    }, 2000)
+    const data = form.getFieldsValue()
+    const images = data.images.map((file: any) => `${user.uid}/${file.uid}-${file.name}`)
+    await firestore.collection('trips').add({ ...data, images, uid: user.uid, createdAt: new Date() })
+    setVisible(false)
+    setLoading(false)
+    form.resetFields()
   }
 
   return (
@@ -43,7 +48,7 @@ const NewTripModal = () => {
 
           <LocationInput rules={[{ required: true }]} form={form} />
 
-          <ImagesInput label='Images' name='images' rules={[{ required: true }]} onUpload={i => setImages([...images, i])} />
+          <ImagesInput label='Images' name='images' rules={[{ required: true }]} user={user} />
 
           <Form.Item>
             <Button type='primary' htmlType='submit' loading={loading}>

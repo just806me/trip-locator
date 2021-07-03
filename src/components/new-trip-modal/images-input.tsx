@@ -5,21 +5,17 @@ import { UploadRequestOption } from 'rc-upload/lib/interface'
 import firebase from 'firebase'
 import { storage } from '../../config/firebase'
 
-const handleUpload = (callback: (ref: firebase.storage.Reference) => void, options: UploadRequestOption) => {
-  if (!(options.file instanceof Blob)) {
+const handleUpload = (user: firebase.User, options: UploadRequestOption) => {
+  if (!(options.file instanceof File)) {
     console.error('received unexpected file', options.file)
     return
   }
 
-  const fileRef = storage.ref().child(`${new Date().getTime()}-${options.filename}`)
-
-  fileRef.put(options.file).on('state_changed',
-    snapshot => options.onProgress?.({ percent: (snapshot.bytesTransferred / snapshot.totalBytes) * 100 } as any),
-    error => options.onError?.(error),
-    () => {
-      options.onSuccess?.(undefined, undefined!)
-      callback(fileRef)
-    }
+  const filename = `${user.uid}/${options.file.uid}-${options.file.name}`
+  storage.ref().child(filename).put(options.file).on('state_changed',
+    s => options.onProgress?.({ percent: (s.bytesTransferred / s.totalBytes) * 100 } as any),
+    e => options.onError?.(e),
+    () => options.onSuccess?.(undefined, undefined!)
   )
 }
 
@@ -27,10 +23,10 @@ interface ImagesInputProps {
   label: string
   name: string
   rules: Rule[]
-  onUpload: (ref: firebase.storage.Reference) => void
+  user: firebase.User
 }
 
-const ImagesInput = ({ label, name, rules, onUpload }: ImagesInputProps) => (
+const ImagesInput = ({ label, name, rules, user }: ImagesInputProps) => (
   <Form.Item
     label={label}
     name={name}
@@ -39,9 +35,10 @@ const ImagesInput = ({ label, name, rules, onUpload }: ImagesInputProps) => (
     getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}
   >
     <Upload
+      accept='image/*'
       multiple
       listType='picture'
-      customRequest={options => handleUpload(onUpload, options)}
+      customRequest={options => handleUpload(user, options)}
     >
       <Button icon={<UploadOutlined />}>Click to upload</Button>
     </Upload>

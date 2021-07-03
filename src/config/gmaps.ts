@@ -3,7 +3,7 @@ import { Loader } from '@googlemaps/js-api-loader'
 let loader: Loader | undefined
 let loadPromise: Promise<any>
 
-export default () => {
+const loadGMaps = () => {
   // avoid api to be loaded multiple times
   if (loadPromise)
     return loadPromise
@@ -14,3 +14,5 @@ export default () => {
   loadPromise = loader.load().then(google => google.maps)
   return loadPromise
 }
+
+export default loadGMaps

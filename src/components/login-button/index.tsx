@@ -1,6 +1,6 @@
 import { Button } from 'antd'
 import { LoginOutlined } from '@ant-design/icons'
-import firebase, { auth } from '../../firebase-config'
+import firebase, { auth } from '../../config/firebase'
 
 const signInWithGoogle = async () => {
   const provider = new firebase.auth.GoogleAuthProvider()

@@ -1,5 +1,5 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth } from '../../firebase-config'
+import { auth } from '../../config/firebase'
 import Map from '../../components/map'
 import Loader from '../../components/loader'
 import LoginButton from '../../components/login-button'

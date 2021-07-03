@@ -3,7 +3,7 @@ import { Button, Form, Upload } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { UploadRequestOption } from 'rc-upload/lib/interface'
 import firebase from 'firebase'
-import { storage } from '../../firebase-config'
+import { storage } from '../../config/firebase'
 
 const handleUpload = (callback: (ref: firebase.storage.Reference) => void, options: UploadRequestOption) => {
   if (!(options.file instanceof Blob)) {

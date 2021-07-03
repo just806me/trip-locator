@@ -28,25 +28,21 @@ const Marker = ({ title }: MarkerProps) => <Tooltip title={title}>
 const Map = () => {
   const [trips, setTrips] = useState<Trip[]>([])
 
-  useEffect(() => {
-    (async function () {
-      firestore.collection('trips').onSnapshot(async snapshot => {
-        const data = snapshot.docs.map(async doc => {
-          const imageRefs = doc.get('images') as string[]
-          const images = await Promise.all(imageRefs.map(image => storage.ref().child(image).getDownloadURL()))
-          return {
-            id: doc.id,
-            title: doc.get('title'),
-            description: doc.get('description'),
-            lat: doc.get('lat'),
-            lng: doc.get('lng'),
-            images
-          }
-        })
-        setTrips(await Promise.all(data))
-      })
-    })()
-  }, [])
+  useEffect(() => firestore.collection('trips').onSnapshot(async snapshot => {
+    const data = snapshot.docs.map(async doc => {
+      const imageRefs = doc.get('images') as string[]
+      const images = await Promise.all(imageRefs.map(image => storage.ref().child(image).getDownloadURL()))
+      return {
+        id: doc.id,
+        title: doc.get('title'),
+        description: doc.get('description'),
+        lat: doc.get('lat'),
+        lng: doc.get('lng'),
+        images
+      }
+    })
+    setTrips(await Promise.all(data))
+  }), [])
 
   return <div className='map'>
     <GoogleMap

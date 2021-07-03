@@ -43,9 +43,7 @@ const LocationInput = ({ rules, form }: LocationInputProps) => {
 
   const search = async (value: string) => setSearchResult(await geocode(value))
 
-  const select = (value: string) => {
-    form.setFieldsValue(JSON.parse(value))
-  }
+  const select = (value: string) => form.setFieldsValue(JSON.parse(value))
 
   return <Row gutter={16}>
     <Col span={12}>

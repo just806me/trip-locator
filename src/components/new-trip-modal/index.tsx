@@ -25,40 +25,38 @@ const NewTripModal = ({ user }: NewTripModalProps) => {
     form.resetFields()
   }
 
-  return (
-    <>
-      <Button size='large' icon={<PlusCircleOutlined />} onClick={() => setVisible(true)}>
-        Add new trip
-      </Button>
+  return <>
+    <Button size='large' icon={<PlusCircleOutlined />} onClick={() => setVisible(true)}>
+      Add new trip
+    </Button>
 
-      <Modal
-        title='Add new trip'
-        footer={false}
-        visible={visible}
-        onCancel={() => setVisible(false)}
-      >
-        <Form layout='vertical' form={form} onFinish={submit}>
-          <Form.Item label='Title' name='title' rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
+    <Modal
+      title='Add new trip'
+      footer={false}
+      visible={visible}
+      onCancel={() => setVisible(false)}
+    >
+      <Form layout='vertical' form={form} onFinish={submit}>
+        <Form.Item label='Title' name='title' rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
 
-          <Form.Item label='Description' name='description' rules={[{ required: true }]}>
-            <Input.TextArea autoSize={{ minRows: 3 }} />
-          </Form.Item>
+        <Form.Item label='Description' name='description' rules={[{ required: true }]}>
+          <Input.TextArea autoSize={{ minRows: 3 }} />
+        </Form.Item>
 
-          <LocationInput rules={[{ required: true }]} form={form} />
+        <LocationInput rules={[{ required: true }]} form={form} />
 
-          <ImagesInput label='Images' name='images' rules={[{ required: true }]} user={user} />
+        <ImagesInput label='Images' name='images' rules={[{ required: true }]} user={user} />
 
-          <Form.Item>
-            <Button type='primary' htmlType='submit' loading={loading}>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </>
-  )
+        <Form.Item>
+          <Button type='primary' htmlType='submit' loading={loading}>
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </Modal>
+  </>
 }
 
 export default NewTripModal

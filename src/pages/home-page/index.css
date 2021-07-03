@@ -1,0 +1,11 @@
+.home-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem;
+}
+
+.home-page__button {
+  align-self: flex-end;
+}

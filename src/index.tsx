@@ -2,9 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import 'fomantic-ui-css/semantic.min.css'
 
-import HomePage from './components/home-page'
+import 'antd/dist/antd.css';
+
+import HomePage from './pages/home-page'
 import store from './store'
 import './index.css'
 

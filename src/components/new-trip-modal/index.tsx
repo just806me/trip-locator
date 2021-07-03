@@ -3,6 +3,7 @@ import { PlusCircleOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import firebase from 'firebase'
 import ImagesInput from './images-input'
+import LocationInput from './location-input'
 
 const NewTripModal = () => {
   const [visible, setVisible] = useState(false)
@@ -39,6 +40,8 @@ const NewTripModal = () => {
           <Form.Item label='Description' name='description' rules={[{ required: true }]}>
             <Input.TextArea autoSize={{ minRows: 3 }} />
           </Form.Item>
+
+          <LocationInput rules={[{ required: true }]} form={form} />
 
           <ImagesInput label='Images' rules={[{ required: true }]} onUpload={i => setImages([...images, i])} />
 

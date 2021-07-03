@@ -9,7 +9,7 @@ const loadGMaps = () => {
     return loadPromise
 
   if (!loader)
-    loader = new Loader({ apiKey: 'AIzaSyCL6mCM50FVzVM_cbXJWwLhrYxsGlFweVw' })
+    loader = new Loader({ apiKey: 'AIzaSyD1Yk18JOg2vAqv2_R1TxChcZkKgo12jpY' })
 
   loadPromise = loader.load().then(google => google.maps)
   return loadPromise

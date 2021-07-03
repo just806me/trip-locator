@@ -25,13 +25,15 @@ const handleUpload = (callback: (ref: firebase.storage.Reference) => void, optio
 
 interface ImagesInputProps {
   label: string
+  name: string
   rules: Rule[]
   onUpload: (ref: firebase.storage.Reference) => void
 }
 
-const ImagesInput = ({ label, rules, onUpload }: ImagesInputProps) => (
+const ImagesInput = ({ label, name, rules, onUpload }: ImagesInputProps) => (
   <Form.Item
     label={label}
+    name={name}
     rules={rules}
     valuePropName='fileList'
     getValueFromEvent={(e: any) => Array.isArray(e) ? e : e && e.fileList}

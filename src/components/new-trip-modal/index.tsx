@@ -43,7 +43,7 @@ const NewTripModal = () => {
 
           <LocationInput rules={[{ required: true }]} form={form} />
 
-          <ImagesInput label='Images' rules={[{ required: true }]} onUpload={i => setImages([...images, i])} />
+          <ImagesInput label='Images' name='images' rules={[{ required: true }]} onUpload={i => setImages([...images, i])} />
 
           <Form.Item>
             <Button type='primary' htmlType='submit' loading={loading}>

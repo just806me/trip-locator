@@ -50,10 +50,9 @@ const LocationInput = ({ rules, form }: LocationInputProps) => {
 
   const search = async (value: string) => setSearchResult(await geocode(value))
 
-  const select = (value: string) => {
-    const latlng = JSON.parse(value) as LatLng
-    form.setFieldsValue(latlng)
-    setMarkers([{ ...latlng, key: '0', title: 'Selected location' }])
+  const select = (value: LatLng) => {
+    form.setFieldsValue(value)
+    setMarkers([{ ...value, key: '0', title: 'Selected location' }])
   }
 
   return <Row gutter={16}>
@@ -74,7 +73,7 @@ const LocationInput = ({ rules, form }: LocationInputProps) => {
         <Select
           showSearch
           onSearch={search}
-          onSelect={select}
+          onSelect={(value: string) => select(JSON.parse(value))}
           options={searchResult}
           filterOption={false}
         />
@@ -82,7 +81,12 @@ const LocationInput = ({ rules, form }: LocationInputProps) => {
     </Col>
 
     <Col span={24} style={{ height: '200px' }}>
-      <Map markers={markers} center={markers[0]} zoom={markers.length && 13} />
+      <Map
+        markers={markers}
+        center={markers[0]}
+        zoom={markers.length && 13}
+        onClick={select}
+      />
     </Col>
   </Row>
 }

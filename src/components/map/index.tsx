@@ -12,11 +12,9 @@ export interface MarkerProps {
   lng: number
 }
 
-interface MapProps {
+interface MapProps extends GoogleMap.Props {
   fullscreen?: boolean
   markers?: MarkerProps[]
-  center?: GoogleMap.Coords
-  zoom?: number
 }
 
 const Marker = ({ title }: MarkerProps) => <Tooltip title={title}>

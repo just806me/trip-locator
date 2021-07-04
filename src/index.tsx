@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import 'antd/dist/antd.css';
 
 import HomePage from './pages/home-page'
+import TripPage from './pages/trip-page'
 import store from './store'
 import './index.css'
 
@@ -14,6 +15,8 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <Route exact path='/' component={HomePage} />
+
+        <Route exact path='/trips/:id' component={TripPage} />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

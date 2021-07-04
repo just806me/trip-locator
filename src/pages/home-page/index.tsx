@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { useHistory } from 'react-router-dom'
 import Loader from '../../components/loader'
 import LoginButton from '../../components/login-button'
 import Map from '../../components/map'
@@ -11,13 +12,14 @@ import './index.css'
 const HomePage = () => {
   const [user, firebaseLoading] = useAuthState(auth)
   const [trips, setTrips] = useState<Trip[]>([])
+  const history = useHistory()
 
   useEffect(() => firestore.collection('trips').onSnapshot(async snapshot => {
     const data = snapshot.docs.map(async doc => {
       const imageRefs = doc.get('images') as string[]
       const images = await Promise.all(imageRefs.map(image => storage.ref().child(image).getDownloadURL()))
       return {
-        key: doc.id,
+        id: doc.id,
         title: doc.get('title'),
         description: doc.get('description'),
         lat: doc.get('lat'),
@@ -28,9 +30,11 @@ const HomePage = () => {
     setTrips(await Promise.all(data))
   }), [])
 
+  const showTrip = (_: any, trip: Trip) => history.push(`/trips/${trip.id}`)
+
   return <>
     <div className='home-page'>
-      <Map markers={trips} fullscreen />
+      <Map fullscreen markers={trips.map(t => ({ ...t, key: t.id }))} onChildClick={showTrip} />
 
       <div className='home-page__button'>
         {user ? <NewTripModal user={user} /> : <LoginButton />}

@@ -1,0 +1,22 @@
+.trip-page {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.trip-page__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.trip-page .ant-carousel .ant-image {
+  display: block;
+}
+
+.trip-page .ant-carousel .slick-arrow {
+  font-size: 16px;
+}
+
+.trip-page .ant-carousel .slick-arrow::before {
+  color: #000;
+}

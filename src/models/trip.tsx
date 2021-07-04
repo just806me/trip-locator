@@ -1,5 +1,5 @@
 interface Trip {
-  key: string
+  id: string
   title: string
   description: string
   images: string[]

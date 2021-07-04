@@ -5,7 +5,7 @@ import Loader from '../../components/loader'
 import LoginButton from '../../components/login-button'
 import Map from '../../components/map'
 import NewTripModal from '../../components/new-trip-modal'
-import { auth, firestore, storage } from '../../config/firebase'
+import { auth, firestore } from '../../config/firebase'
 import Trip from '../../models/trip'
 import './index.css'
 
@@ -16,15 +16,12 @@ const HomePage = () => {
 
   useEffect(() => firestore.collection('trips').onSnapshot(async snapshot => {
     const data = snapshot.docs.map(async doc => {
-      const imageRefs = doc.get('images') as string[]
-      const images = await Promise.all(imageRefs.map(image => storage.ref().child(image).getDownloadURL()))
       return {
         id: doc.id,
         title: doc.get('title'),
         description: doc.get('description'),
         lat: doc.get('lat'),
         lng: doc.get('lng'),
-        images
       }
     })
     setTrips(await Promise.all(data))

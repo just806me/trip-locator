@@ -5,13 +5,19 @@ import { OptionData, OptionGroupData } from 'rc-select/lib/interface'
 import pDebounce from 'p-debounce'
 import gmaps from '../../config/gmaps'
 import { FormInstance } from 'antd/lib/form/Form'
+import Map, { MarkerProps } from '../map'
 
 type Option = OptionData | OptionGroupData
+
+interface LatLng {
+  lat: number
+  lng: number
+}
 
 interface GeocoderResult {
   results: {
     formatted_address: string
-    geometry: { location: { toJSON: () => { lat: number, lng: number } } }
+    geometry: { location: { toJSON: () => LatLng } }
   }[]
 }
 
@@ -40,10 +46,15 @@ const geocode: (value: string) => Promise<Option[]> = pDebounce(
 
 const LocationInput = ({ rules, form }: LocationInputProps) => {
   const [searchResult, setSearchResult] = useState<Option[]>([])
+  const [markers, setMarkers] = useState<MarkerProps[]>([])
 
   const search = async (value: string) => setSearchResult(await geocode(value))
 
-  const select = (value: string) => form.setFieldsValue(JSON.parse(value))
+  const select = (value: string) => {
+    const latlng = JSON.parse(value) as LatLng
+    form.setFieldsValue(latlng)
+    setMarkers([{ ...latlng, key: '0', title: 'Selected location' }])
+  }
 
   return <Row gutter={16}>
     <Col span={12}>
@@ -68,6 +79,10 @@ const LocationInput = ({ rules, form }: LocationInputProps) => {
           filterOption={false}
         />
       </Form.Item>
+    </Col>
+
+    <Col span={24} style={{ height: '200px' }}>
+      <Map markers={markers} center={markers[0]} zoom={markers.length && 13} />
     </Col>
   </Row>
 }
